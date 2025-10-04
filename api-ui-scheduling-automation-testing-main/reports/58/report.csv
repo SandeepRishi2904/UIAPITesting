@@ -1,0 +1,53 @@
+Execution ID:,58
+Suite Name:,Full Regression Suite
+Status:,RUNNING
+Start Time:,2025-10-01 14:25:54
+End Time:,N/A
+Total Tests:,0
+Passed:,0
+Failed:,0
+""
+Test Case ID,Test Case Name,Status,Duration (ms),Executed At,Error Message,Artifact Path
+18,loginUnsuccessful,FAILED,64629,2025-10-01 14:34:36,"java.lang.AssertionError: 1 expectation failed.
+Expected status code <400> but was <401>.
+",
+5,findFlightsParisToRome,PASSED,2218,2025-10-01 14:26:10,,
+22,updateUserPut,FAILED,63820,2025-10-01 14:31:25,"java.lang.AssertionError: 1 expectation failed.
+Expected status code <200> but was <401>.
+",
+3,findFlightsBostonToLondon,PASSED,2744,2025-10-01 14:26:05,,
+17,getSingleUser,PASSED,64448,2025-10-01 14:28:14,,
+9,failingTestForScreenshot,FAILED,1327,2025-10-01 14:26:28,java.lang.AssertionError: This test is designed to fail to demonstrate screenshot capture.,
+2,verifyPageTitle,PASSED,2218,2025-10-01 14:26:19,,
+19,getSingleUserNotFound,FAILED,63681,2025-10-01 14:29:18,"java.lang.AssertionError: 1 expectation failed.
+Expected status code <404> but was <401>.
+",
+6,chooseSpecificFlight,FAILED,2160,2025-10-01 14:26:24,java.lang.AssertionError: Did not land on purchase page for the correct flight. expected [true] but found [false],
+10,testPurchaseWithEmptyName,PASSED,1864,2025-10-01 14:26:39,,
+20,singleResourceNotFound,FAILED,63714,2025-10-01 14:35:41,"java.lang.AssertionError: 1 expectation failed.
+Expected status code <200> but was <401>.
+",
+16,loginSuccessful,FAILED,63661,2025-10-01 14:33:32,"java.lang.AssertionError: 1 expectation failed.
+Expected status code <200> but was <401>.
+",
+8,completeFlightPurchase,PASSED,2343,2025-10-01 14:26:35,,
+12,verifyConfirmationDetails,PASSED,1284,2025-10-01 14:27:06,,
+15,deleteUser,FAILED,63511,2025-10-01 14:27:10,"java.lang.AssertionError: 1 expectation failed.
+Expected status code <204> but was <401>.
+",
+11,verifyCardYear,FAILED,21229,2025-10-01 14:26:43,"org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {""method"":""css selector"",""selector"":""#year""}
+  (Session info: chrome=140.0.7339.208)
+For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Build info: version: '4.22.0', revision: 'c5f3146703*'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.8'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [120a9f2e5607f4041d30be32b4ab9bea, findElement {using=id, value=year}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 140.0.7339.208, chrome: {chromedriverVersion: 140.0.7339.207 (17230b545fd..., userDataDir: C:\Users\vsbar\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:60834}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:60834/devtoo..., se:cdpVersion: 140.0.7339.208, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 120a9f2e5607f4041d30be32b4ab9bea",
+14,createUser,FAILED,68079,2025-10-01 14:26:02,"java.lang.AssertionError: 1 expectation failed.
+Expected status code <201> but was <401>.
+",
+4,verifyDestinationOfTheWeekLink,PASSED,2847,2025-10-01 14:26:15,,
+7,verifyResultsTableHeaders,FAILED,1489,2025-10-01 14:26:32,java.lang.AssertionError: Header 'Departs' not found. expected [Departs: Paris] but found [Departs:],
+21,listUsers,PASSED,63376,2025-10-01 14:30:22,,
+13,listResources,PASSED,63323,2025-10-01 14:32:29,,

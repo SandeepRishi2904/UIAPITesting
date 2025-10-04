@@ -1,0 +1,53 @@
+Execution ID:,64
+Suite Name:,Full Regression Suite
+Status:,RUNNING
+Start Time:,2025-10-02 20:57:00
+End Time:,N/A
+Total Tests:,0
+Passed:,0
+Failed:,0
+""
+Test Case ID,Test Case Name,Status,Duration (ms),Executed At,Error Message,Artifact Path
+7,verifyResultsTableHeaders,FAILED,1609,2025-10-02 20:57:41,java.lang.AssertionError: Header 'Departs' not found. expected [Departs: Paris] but found [Departs:],
+3,findFlightsBostonToLondon,PASSED,2659,2025-10-02 20:57:13,,
+10,testPurchaseWithEmptyName,PASSED,2162,2025-10-02 20:57:49,,
+22,updateUserPut,FAILED,636,2025-10-02 20:57:18,"java.lang.AssertionError: 1 expectation failed.
+Expected status code <200> but was <401>.
+",
+14,createUser,FAILED,5393,2025-10-02 20:57:08,"java.lang.AssertionError: 1 expectation failed.
+Expected status code <201> but was <401>.
+",
+2,verifyPageTitle,PASSED,1276,2025-10-02 20:57:28,,
+13,listResources,PASSED,401,2025-10-02 20:57:19,,
+20,singleResourceNotFound,FAILED,563,2025-10-02 20:57:20,"java.lang.AssertionError: 1 expectation failed.
+Expected status code <200> but was <401>.
+",
+19,getSingleUserNotFound,FAILED,703,2025-10-02 20:57:16,"java.lang.AssertionError: 1 expectation failed.
+Expected status code <404> but was <401>.
+",
+18,loginUnsuccessful,FAILED,582,2025-10-02 20:57:20,"java.lang.AssertionError: 1 expectation failed.
+Expected status code <400> but was <401>.
+",
+6,chooseSpecificFlight,FAILED,1959,2025-10-02 20:57:32,java.lang.AssertionError: Did not land on purchase page for the correct flight. expected [true] but found [false],
+9,failingTestForScreenshot,FAILED,1478,2025-10-02 20:57:36,java.lang.AssertionError: This test is designed to fail to demonstrate screenshot capture.,
+12,verifyConfirmationDetails,PASSED,1328,2025-10-02 20:58:17,,
+11,verifyCardYear,FAILED,21331,2025-10-02 20:57:53,"org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {""method"":""css selector"",""selector"":""#year""}
+  (Session info: chrome=140.0.7339.208)
+For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Build info: version: '4.22.0', revision: 'c5f3146703*'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.8'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [56ca90edcec19b59520d0aa18e7d9579, findElement {using=id, value=year}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 140.0.7339.208, chrome: {chromedriverVersion: 140.0.7339.207 (17230b545fd..., userDataDir: C:\Users\vsbar\AppData\Loca...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:61654}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:61654/devtoo..., se:cdpVersion: 140.0.7339.208, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 56ca90edcec19b59520d0aa18e7d9579",
+5,findFlightsParisToRome,PASSED,2416,2025-10-02 20:57:18,,
+15,deleteUser,FAILED,656,2025-10-02 20:57:13,"java.lang.AssertionError: 1 expectation failed.
+Expected status code <204> but was <401>.
+",
+17,getSingleUser,PASSED,2413,2025-10-02 20:57:14,,
+16,loginSuccessful,FAILED,542,2025-10-02 20:57:19,"java.lang.AssertionError: 1 expectation failed.
+Expected status code <200> but was <401>.
+",
+8,completeFlightPurchase,PASSED,2369,2025-10-02 20:57:45,,
+4,verifyDestinationOfTheWeekLink,PASSED,3961,2025-10-02 20:57:23,,
+21,listUsers,PASSED,599,2025-10-02 20:57:17,,
