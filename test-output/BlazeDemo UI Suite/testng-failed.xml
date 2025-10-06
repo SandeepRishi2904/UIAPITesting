@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite thread-count="4" parallel="methods" name="Failed suite [BlazeDemo UI Suite]" guice-stage="DEVELOPMENT">
+  <parameter name="pageLoadTimeout" value="60"/>
+  <parameter name="elementWaitTimeout" value="20"/>
+  <test thread-count="4" parallel="methods" name="BlazeDemo Full Flow Tests(failed)">
+    <classes>
+      <class name="com.testframework.ui_tests.PurchaseFlowTest">
+        <methods>
+          <include name="tearDown"/>
+          <include name="verifyCardYear"/>
+          <include name="springTestContextBeforeTestClass"/>
+          <include name="completeFlightPurchase"/>
+          <include name="setUp"/>
+          <include name="springTestContextBeforeTestMethod"/>
+          <include name="springTestContextAfterTestClass"/>
+          <include name="verifyConfirmationDetails"/>
+          <include name="springTestContextPrepareTestInstance"/>
+          <include name="springTestContextAfterTestMethod"/>
+          <include name="testPurchaseWithEmptyName"/>
+        </methods>
+      </class> <!-- com.testframework.ui_tests.PurchaseFlowTest -->
+      <class name="com.testframework.ui_tests.FlightResultTest">
+        <methods>
+          <include name="tearDown"/>
+          <include name="verifyResultsTableHeaders"/>
+          <include name="springTestContextBeforeTestClass"/>
+          <include name="setUp"/>
+          <include name="springTestContextBeforeTestMethod"/>
+          <include name="springTestContextAfterTestClass"/>
+          <include name="chooseSpecificFlight"/>
+          <include name="failingTestForScreenshot"/>
+          <include name="springTestContextPrepareTestInstance"/>
+          <include name="springTestContextAfterTestMethod"/>
+        </methods>
+      </class> <!-- com.testframework.ui_tests.FlightResultTest -->
+      <class name="com.testframework.ui_tests.FlightSearchTest">
+        <methods>
+          <include name="tearDown"/>
+          <include name="verifyPageTitle"/>
+          <include name="findFlightsBostonToLondon"/>
+          <include name="findFlightsParisToRome"/>
+          <include name="verifyDestinationOfTheWeekLink"/>
+          <include name="springTestContextBeforeTestClass"/>
+          <include name="setUp"/>
+          <include name="springTestContextBeforeTestMethod"/>
+          <include name="springTestContextPrepareTestInstance"/>
+          <include name="springTestContextAfterTestClass"/>
+          <include name="springTestContextAfterTestMethod"/>
+        </methods>
+      </class> <!-- com.testframework.ui_tests.FlightSearchTest -->
+    </classes>
+  </test> <!-- BlazeDemo Full Flow Tests(failed) -->
+</suite> <!-- Failed suite [BlazeDemo UI Suite] -->
