@@ -1,0 +1,76 @@
+# Name of your GitHub Actions Workflow
+name: Automated Regression Test Suite
+
+# This workflow will run automatically on every 'push' to any branch.
+on:
+  push:
+    branches: [ "**" ]
+
+# A workflow run is made up of one or more jobs.
+jobs:
+  build-and-test:
+    # The type of virtual machine to run the job on.
+    runs-on: ubuntu-latest
+
+    # This sets up a MySQL database in a separate container for the tests.
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          # This securely uses the secret you created for the database password.
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+          MYSQL_DATABASE: testpilot
+        ports:
+          - 3306:3306
+        # Health check to ensure MySQL is ready before tests start.
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    # A sequence of tasks that will be executed as part of the job.
+    steps:
+      # Step 1: Check out your repository code.
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up JDK 21.
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      # Step 3: Build the project with Maven, skipping tests for now.
+      - name: Build with Maven
+        run: mvn clean install -DskipTests
+
+      # Step 4: Run the specific regression test suite using Maven.
+      - name: Run Full Regression Test Suite
+        run: mvn test -Dsurefire.suiteXmlFiles=src/main/resources/suites/full_regression.xml
+        env:
+          # These environment variables connect your tests to the database service.
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_PORT: 3306
+          MYSQL_USER: root
+          # This securely uses the same secret for the application password.
+          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+
+      # Step 5: Upload the test reports (HTML, CSV) as a build artifact.
+      # This step has been updated from v3 to v4.
+      - name: Upload Test Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: ./reports
+
+      # Step 6: Upload failure artifacts (screenshots, logs) as a build artifact.
+      # This step has also been updated from v3 to v4.
+      - name: Upload Failure Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: failure-artifacts
+          path: ./artifacts
