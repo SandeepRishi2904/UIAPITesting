@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 🚀 API-UI Automation Scheduler Framework
 📌 Project Description
 
@@ -130,3 +131,6 @@ Automated test scheduling with Spring Boot APIs
 Centralized reports & artifacts for debugging
 
 Reliable analytics dashboard for QA & Dev teams
+=======
+# UIAPITesting
+>>>>>>> 2ae02d42af6b16ec3671958b2ae0a050edefa075
