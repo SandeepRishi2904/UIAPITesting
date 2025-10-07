@@ -20,57 +20,101 @@ jobs:
           # This securely uses the secret you created for the database password.
           MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
           MYSQL_DATABASE: testpilot
+          MYSQL_ALLOW_EMPTY_PASSWORD: "yes"  # Speeds up init
         ports:
           - 3306:3306
-        # Health check to ensure MySQL is ready before tests start.
+        # Enhanced health check to ensure MySQL is ready before tests start.
         options: >-
-          --health-cmd="mysqladmin ping"
+          --health-cmd="mysqladmin ping -h localhost -P 3306 -u root -p${{ secrets.MYSQL_PASSWORD }}"
           --health-interval=10s
           --health-timeout=5s
-          --health-retries=3
+          --health-retries=10
+          --health-start-period=30s
+          --init-connect='SET NAMES utf8mb4;'
 
     # A sequence of tasks that will be executed as part of the job.
     steps:
       # Step 1: Check out your repository code.
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4  # Updated to v4 for better performance
 
       # Step 2: Set up JDK 21.
       - name: Set up JDK 21
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4  # Updated to v4
         with:
           java-version: '21'
           distribution: 'temurin'
 
-      # Step 3: Build the project with Maven, skipping tests for now.
-      - name: Build with Maven
-        run: mvn clean install -DskipTests
+      # Step 3: Cache Maven dependencies for faster builds.
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
 
-      # Step 4: Run the specific regression test suite using Maven.
+      # Step 4: Build the project with Maven, skipping tests for now.
+      - name: Build with Maven
+        run: mvn clean compile -DskipTests  # Changed to compile for lighter build
+
+      # Step 5: Run Flyway migrations to initialize the database schema.
+      - name: Run Flyway Migrations
+        run: mvn flyway:migrate
+        env:
+          SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/testpilot?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+          SPRING_DATASOURCE_USERNAME: root
+          SPRING_DATASOURCE_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+
+      # Step 6: Wait for MySQL to be fully ready before proceeding.
+      - name: Wait for MySQL
+        run: |
+          echo "Waiting for MySQL to start..."
+          timeout 60s bash -c "until mysql -h localhost -P 3306 -u root -p${{ secrets.MYSQL_PASSWORD }} -e 'SELECT 1;' 2>/dev/null; do sleep 1; echo 'MySQL not ready yet...'; done"
+          echo "MySQL is ready!"
+        env:
+          MYSQL_PWD: ${{ secrets.MYSQL_PASSWORD }}
+
+      # Step 7: Run the specific regression test suite using Maven.
       - name: Run Full Regression Test Suite
-        run: mvn test -Dsurefire.suiteXmlFiles=src/main/resources/suites/full_regression.xml
+        run: mvn test -DsuiteXmlFile=full_regression.xml  # Simplified param; assumes XML in test resources
         env:
           # These environment variables connect your tests to the database service.
-          MYSQL_HOST: 127.0.0.1
-          MYSQL_PORT: 3306
-          MYSQL_USER: root
-          # This securely uses the same secret for the application password.
-          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+          SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/testpilot?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+          SPRING_DATASOURCE_USERNAME: root
+          SPRING_DATASOURCE_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+          # Override properties for CI environment
+          ui.page.load.timeout.seconds: 30
+          ui.element.wait.timeout.seconds: 10
+          test-framework.artifacts.directory: ./target/artifacts
 
-      # Step 5: Upload the test reports (HTML, CSV) as a build artifact.
+      # Step 8: Upload the test reports (HTML, CSV) as a build artifact.
       # This step has been updated from v3 to v4.
       - name: Upload Test Reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-reports
-          path: ./reports
+          path: |
+            target/surefire-reports/
+            spark-report/
+            ./reports  # Include any custom reports dir if exists
 
-      # Step 6: Upload failure artifacts (screenshots, logs) as a build artifact.
+      # Step 9: Upload failure artifacts (screenshots, logs) as a build artifact.
       # This step has also been updated from v3 to v4.
       - name: Upload Failure Artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: failure-artifacts
-          path: ./artifacts
+          path: |
+            target/artifacts/
+            ./artifacts  # Include any custom artifacts dir if exists
+
+      # Step 10: Publish test results summary.
+      - name: Publish Test Results
+        if: always()
+        uses: dorny/test-reporter@v1
+        with:
+          name: Regression Test Results
+          path: target/surefire-reports/*.xml
+          reporter: java-junit
